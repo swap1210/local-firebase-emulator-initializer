@@ -28,7 +28,19 @@
 				{
 					"id": 22,
 					"label": "List Collections",
-					"action": "collection.List"
+					"action": "collection.List",
+					"subMenu": [
+						{
+							"id": 221,
+							"label": "Create Document",
+							"action": "document.Create"
+						},
+						{
+							"id": 222,
+							"label": "List Documents",
+							"action": "document.List"
+						}
+					]
 				}
 			]
 		},

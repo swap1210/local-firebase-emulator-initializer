@@ -1,4 +1,3 @@
-// internal/menu/menu.go
 package menu
 
 import (
@@ -9,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/swap1210/local-firebase-emulator-initializer/internal/collection"
+	"github.com/swap1210/local-firebase-emulator-initializer/internal/document"
 	"github.com/swap1210/local-firebase-emulator-initializer/internal/user"
 )
 
@@ -30,9 +30,9 @@ func WelcomeScreen() {
 
 // LoadMenuFromJSON reads the menu configuration from a JSON file.
 func LoadMenuFromJSON(filename string) []MenuEntry {
-	data, err := os.ReadFile(filename)
+	data, err := os.ReadFile("assets/" + filename)
 	if err != nil {
-		fmt.Printf("Error reading JSON file '%s': %v\n", "assets/"+filename, err)
+		fmt.Printf("Error reading JSON file '%s': %v\n", filename, err)
 		os.Exit(1)
 	}
 
@@ -40,7 +40,7 @@ func LoadMenuFromJSON(filename string) []MenuEntry {
 		Menu []MenuEntry `json:"menu"`
 	}
 	if err := json.Unmarshal(data, &menu); err != nil {
-		fmt.Printf("Error unmarshalling JSON from '%s': %v\n", "assets/"+filename, err)
+		fmt.Printf("Error unmarshalling JSON from '%s': %v\n", filename, err)
 		os.Exit(1)
 	}
 	return menu.Menu
@@ -51,8 +51,26 @@ func MainMenu(menuItems []MenuEntry) {
 	reader := bufio.NewReader(os.Stdin)
 	actionMap := map[string]func(){
 		"user.Create":       user.Create,
-		"user.List":         user.List, // Added user.List
+		"user.List":         user.List,
 		"collection.Create": collection.Create,
+		"collection.List":   collection.List,
+		"document.Create": func() {
+			fmt.Print("Enter collection name: ")
+			collectionName, _ := reader.ReadString('\n')
+			collectionName = strings.TrimSpace(collectionName)
+
+			fmt.Print("Enter JSON file name (e.g., data.json): ")
+			fileName, _ := reader.ReadString('\n')
+			fileName = strings.TrimSpace(fileName)
+
+			document.Create(collectionName, fileName)
+		},
+		"document.List": func() {
+			fmt.Print("Enter collection name: ")
+			collectionName, _ := reader.ReadString('\n')
+			collectionName = strings.TrimSpace(collectionName)
+			document.List(collectionName)
+		},
 		"exit": func() {
 			fmt.Println("Exiting the application. Goodbye!")
 			os.Exit(0)
