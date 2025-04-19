@@ -62,14 +62,25 @@ func Create(collectionName, documentName, fileName string) {
 		return
 	}
 
-	// Add document to the specified collection with auto-generated ID
 	ctx := context.Background()
-	_, err = client.Collection(collectionName).Doc(documentName).Set(ctx, content)
-	if err != nil {
-		fmt.Printf("Error creating document in collection '%s': %v\n", collectionName, err)
-		return
+
+	if documentName == "" {
+		// Auto-generate document ID
+		docRef, _, err := client.Collection(collectionName).Add(ctx, content)
+		if err != nil {
+			fmt.Printf("Error creating document with auto ID in collection '%s': %v\n", collectionName, err)
+			return
+		}
+		fmt.Printf("Successfully created document with auto-generated ID: %s in collection: %s\n", docRef.ID, collectionName)
+	} else {
+		// Use provided document ID
+		_, err := client.Collection(collectionName).Doc(documentName).Set(ctx, content)
+		if err != nil {
+			fmt.Printf("Error creating document in collection '%s': %v\n", collectionName, err)
+			return
+		}
+		fmt.Printf("Successfully created document with ID: %s in collection: %s\n", documentName, collectionName)
 	}
-	fmt.Printf("Successfully created document with ID: %s in collection: %s\n", documentName, collectionName)
 }
 
 // List fetches and displays all documents in the specified collection from the Firestore emulator.

@@ -60,7 +60,7 @@ func MainMenu(menuItems []MenuEntry) {
 			collectionName, _ := reader.ReadString('\n')
 			collectionName = strings.TrimSpace(collectionName)
 
-			fmt.Print("Enter document name: ")
+			fmt.Print("Enter document name (auto-generated if empty): ")
 			documentName, _ := reader.ReadString('\n')
 			documentName = strings.TrimSpace(documentName)
 
