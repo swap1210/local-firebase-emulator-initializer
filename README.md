@@ -1,0 +1,1 @@
+# local-firebase-emulator-initializer
