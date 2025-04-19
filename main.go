@@ -6,6 +6,6 @@ import (
 
 func main() {
 	menu.WelcomeScreen()
-	menuItems := menu.LoadMenuFromJSON("assets/menu.json")
+	menuItems := menu.LoadMenuFromJSON("menu.json")
 	menu.MainMenu(menuItems)
 }
