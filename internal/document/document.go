@@ -41,7 +41,7 @@ func init() {
 }
 
 // Create adds a document to the specified collection using the content of a JSON file from the assets folder.
-func Create(collectionName, fileName string) {
+func Create(collectionName, documentName, fileName string) {
 	if collectionName == "" || fileName == "" {
 		fmt.Println("Collection name and file name cannot be empty.")
 		return
@@ -64,12 +64,12 @@ func Create(collectionName, fileName string) {
 
 	// Add document to the specified collection with auto-generated ID
 	ctx := context.Background()
-	docRef, _, err := client.Collection(collectionName).Add(ctx, content)
+	_, err = client.Collection(collectionName).Doc(documentName).Set(ctx, content)
 	if err != nil {
 		fmt.Printf("Error creating document in collection '%s': %v\n", collectionName, err)
 		return
 	}
-	fmt.Printf("Successfully created document with ID: %s in collection: %s\n", docRef.ID, collectionName)
+	fmt.Printf("Successfully created document with ID: %s in collection: %s\n", documentName, collectionName)
 }
 
 // List fetches and displays all documents in the specified collection from the Firestore emulator.
