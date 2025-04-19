@@ -1,3 +1,4 @@
+// internal/menu/menu.go
 package menu
 
 import (
@@ -28,10 +29,10 @@ func WelcomeScreen() {
 }
 
 // LoadMenuFromJSON reads the menu configuration from a JSON file.
-func LoadMenuFromJSON(filenameWithPath string) []MenuEntry {
-	data, err := os.ReadFile(filenameWithPath)
+func LoadMenuFromJSON(filename string) []MenuEntry {
+	data, err := os.ReadFile(filename)
 	if err != nil {
-		fmt.Printf("Error reading JSON file '%s': %v\n", filenameWithPath, err)
+		fmt.Printf("Error reading JSON file '%s': %v\n", "assets/"+filename, err)
 		os.Exit(1)
 	}
 
@@ -39,7 +40,7 @@ func LoadMenuFromJSON(filenameWithPath string) []MenuEntry {
 		Menu []MenuEntry `json:"menu"`
 	}
 	if err := json.Unmarshal(data, &menu); err != nil {
-		fmt.Printf("Error unmarshalling JSON from '%s': %v\n", filenameWithPath, err)
+		fmt.Printf("Error unmarshalling JSON from '%s': %v\n", "assets/"+filename, err)
 		os.Exit(1)
 	}
 	return menu.Menu
@@ -50,6 +51,7 @@ func MainMenu(menuItems []MenuEntry) {
 	reader := bufio.NewReader(os.Stdin)
 	actionMap := map[string]func(){
 		"user.Create":       user.Create,
+		"user.List":         user.List, // Added user.List
 		"collection.Create": collection.Create,
 		"exit": func() {
 			fmt.Println("Exiting the application. Goodbye!")
