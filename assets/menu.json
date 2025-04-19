@@ -1,0 +1,53 @@
+{
+	"menu": [
+		{
+			"id": 1,
+			"label": "User Actions",
+			"subMenu": [
+				{
+					"id": 11,
+					"label": "Create User",
+					"action": "user.Create"
+				},
+				{
+					"id": 12,
+					"label": "List Users",
+					"action": "user.List"
+				}
+			]
+		},
+		{
+			"id": 2,
+			"label": "Collection Actions",
+			"subMenu": [
+				{
+					"id": 21,
+					"label": "Create Collection",
+					"action": "collection.Create"
+				},
+				{
+					"id": 22,
+					"label": "List Collections",
+					"action": "collection.List",
+					"subMenu": [
+						{
+							"id": 221,
+							"label": "Create Document",
+							"action": "document.Create"
+						},
+						{
+							"id": 222,
+							"label": "List Documents",
+							"action": "document.List"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": 3,
+			"label": "Exit",
+			"action": "exit"
+		}
+	]
+}
